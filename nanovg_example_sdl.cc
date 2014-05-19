@@ -96,10 +96,36 @@ bool App::Initialize(int argc, char *argv[])
   }
 
 #ifndef _WIN32
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+  ret = SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  if (ret != 0) {
+    printf("SDL_GL_SetAttribute() failed: %s\n", SDL_GetError());
+    return false;
+  }
+  ret = SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+  if (ret != 0) {
+    printf("SDL_GL_SetAttribute() failed: %s\n", SDL_GetError());
+    return false;
+  }
+  ret = SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  if (ret != 0) {
+    printf("SDL_GL_SetAttribute() failed: %s\n", SDL_GetError());
+    return false;
+  }
+  ret = SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+  if (ret != 0) {
+    printf("SDL_GL_SetAttribute() failed: %s\n", SDL_GetError());
+    return false;
+  }
+  ret = SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+  if (ret != 0) {
+    printf("SDL_GL_SetAttribute() failed: %s\n", SDL_GetError());
+    return false;
+  }
+  ret = SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  if (ret != 0) {
+    printf("SDL_GL_SetAttribute() failed: %s\n", SDL_GetError());
+    return false;
+  }
 #endif
 
   window_ = SDL_CreateWindow("nanovg example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_HIDDEN);
