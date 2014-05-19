@@ -1,5 +1,5 @@
-build
-build.ninja
-font
-nanovg_example_glfw
-nanovg_example_sdl
+/build
+/build.ninja
+/font
+/nanovg_example_glfw
+/nanovg_example_sdl
