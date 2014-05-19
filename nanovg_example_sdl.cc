@@ -148,17 +148,20 @@ bool App::Initialize(int argc, char *argv[])
 
   glewExperimental = GL_TRUE;
   if (glewInit() != GLEW_OK) {
+    printf("glewInit() failed.\n");
     return false;
   }
   glGetError();
 
   vg_ = nvgCreateGL3(512, 512, NVG_ANTIALIAS);
   if (vg_ == NULL) {
+    printf("nvgCreateGL3() failed.\n");
     return false;
   }
 
   font_ = nvgCreateFont(vg_, "font", FONT_PATH);
   if (font_ < 0) {
+    printf("nvgCreateFont() failed.\n");
     return false;
   }
 
