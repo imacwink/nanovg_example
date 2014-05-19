@@ -1,8 +1,11 @@
-#include <glew.h>
+﻿#include <GL/glew.h>
 #include <SDL.h>
 #include "nanovg.h"
 #define NANOVG_GL2_IMPLEMENTATION
 #include "nanovg_gl.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 
 namespace nanovg_example {
 

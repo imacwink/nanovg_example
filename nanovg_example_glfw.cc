@@ -1,8 +1,11 @@
-#include <glew.h>
+﻿#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "nanovg.h"
 #define NANOVG_GL3_IMPLEMENTATION
 #include "nanovg_gl.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 
 namespace nanovg_example {
 
@@ -86,23 +89,27 @@ bool App::Initialize(int argc, char *argv[])
 
   window_ = glfwCreateWindow(1000, 600, "nanovg example", NULL, NULL);
   if (window_ == NULL) {
+    printf("glfwCreateWindow() failed\n");
     return false;
   }
 
   glfwMakeContextCurrent(window_);
   glewExperimental = GL_TRUE;
   if (glewInit() != GLEW_OK) {
+    printf("glewInit() failed\n");
     return false;
   }
   glGetError();
 
   vg_ = nvgCreateGL3(512, 512, NVG_ANTIALIAS);
   if (vg_ == NULL) {
+    printf("nvgCreateGL3() failed\n");
     return false;
   }
 
-  font_ = nvgCreateFont(vg_, "font", "/Users/don/Library/Fonts/mplus-1p-regular.ttf");
+  font_ = nvgCreateFont(vg_, "font", "../../font/mplus-1p-regular.ttf");
   if (font_ < 0) {
+    printf("nvgCreateFont() failed\n");
     return false;
   }
 
