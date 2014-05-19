@@ -95,10 +95,13 @@ bool App::Initialize(int argc, char *argv[])
     return false;
   }
 
+#ifndef _WIN32
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+#endif
+
   window_ = SDL_CreateWindow("nanovg example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_HIDDEN);
   if (window_ == NULL) {
     printf("SDL_CraeteWindow() failed: %s\n", SDL_GetError());
@@ -110,18 +113,18 @@ bool App::Initialize(int argc, char *argv[])
     printf("SDL_CreateRenderer() failed: %s\n", SDL_GetError());
     return false;
   }
-  
+
+  gl_ = SDL_GL_CreateContext(window_);
+  if (gl_ == NULL) {
+	  printf("SDL_GL_CreateContext() failed: %s\n", SDL_GetError());
+	  return false;
+  }
+
   glewExperimental = GL_TRUE;
   if (glewInit() != GLEW_OK) {
     return false;
   }
   glGetError();
-
-  gl_ = SDL_GL_CreateContext(window_);
-  if (gl_ == NULL) {
-    printf("SDL_GL_CreateContext() failed: %s\n", SDL_GetError());
-    return false;
-  }
 
   vg_ = nvgCreateGL2(512, 512, NVG_ANTIALIAS);
   if (vg_ == NULL) {
