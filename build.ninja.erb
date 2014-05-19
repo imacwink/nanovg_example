@@ -1,0 +1,42 @@
+builddir = build
+cc = cc
+cflags = -Wall -Wextra -O0 -D_DEBUG
+cxx = c++
+cxxflags = -Wall -Wextra -O0 -D_DEBUG
+cppflags = -Inanovg/src
+ld = $cxx
+ldflags = -framework OpenGL
+libs =
+
+rule cc
+  command = $cc -MMD -MT $out -MF $out.d $cflags $cppflags -c $in -o $out
+  description = CC $out
+  depfile = $out.d
+  deps = gcc
+rule cxx
+  command = $cxx -MMD -MT $out -MF $out.d $cxxflags $cppflags -c $in -o $out
+  description = CXX $out
+  depfile = $out.d
+  deps = gcc
+rule link
+  command = $cxx $ldflags -o $out $in $libs
+  description = LINK $out
+
+build $builddir/nanovg.o: cc nanovg/src/nanovg.c
+build $builddir/stb_image.o: cc nanovg/src/stb_image.c
+
+build $builddir/nanovg_example_glfw.o: cxx nanovg_example_glfw.cc
+  cppflags = $cppflags <%= `pkg-config --cflags-only-I glew glfw3`.chomp %>
+build nanovg_example_glfw: link $builddir/nanovg_example_glfw.o $builddir/nanovg.o $builddir/stb_image.o
+  libs = $libs <%= `pkg-config --libs glew glfw3`.chomp %>
+
+build $builddir/nanovg_example_sdl.o: cxx nanovg_example_sdl.cc
+  cppflags = $cppflags <%= `pkg-config --cflags-only-I glew sdl2`.chomp %>
+build nanovg_example_sdl: link $builddir/nanovg_example_sdl.o $builddir/nanovg.o $builddir/stb_image.o
+  libs = $libs <%= `pkg-config --libs glew sdl2`.chomp %>
+
+rule configure
+  description = CONFIGURE $out
+  command = /bin/sh update_ninja_file.sh $in $out
+  generator = 1
+build build.ninja: configure build.ninja.erb | update_ninja_file.sh
