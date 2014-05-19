@@ -1,7 +1,7 @@
 ﻿#include <glew.h>
 #include <SDL.h>
 #include "nanovg.h"
-#define NANOVG_GL2_IMPLEMENTATION
+#define NANOVG_GL3_IMPLEMENTATION
 #include "nanovg_gl.h"
 #ifdef _MSC_VER
 #define snprintf _snprintf
@@ -126,7 +126,7 @@ bool App::Initialize(int argc, char *argv[])
   }
   glGetError();
 
-  vg_ = nvgCreateGL2(512, 512, NVG_ANTIALIAS);
+  vg_ = nvgCreateGL3(512, 512, NVG_ANTIALIAS);
   if (vg_ == NULL) {
     return false;
   }
@@ -146,7 +146,7 @@ bool App::Initialize(int argc, char *argv[])
 void App::Finalize()
 {
   if (vg_ != NULL) {
-    nvgDeleteGL2(vg_);
+    nvgDeleteGL3(vg_);
     vg_ = NULL;
   }
 
