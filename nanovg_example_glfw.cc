@@ -1,10 +1,13 @@
-﻿#include <GL/glew.h>
+﻿#include <glew.h>
 #include <GLFW/glfw3.h>
 #include "nanovg.h"
 #define NANOVG_GL3_IMPLEMENTATION
 #include "nanovg_gl.h"
 #ifdef _MSC_VER
 #define snprintf _snprintf
+#define FONT_PATH "../../font/mplus-1p-regular.ttf"
+#else
+#define FONT_PATH "font/mplus-1p-regular.ttf"
 #endif
 
 namespace nanovg_example {
@@ -106,8 +109,8 @@ bool App::Initialize(int argc, char *argv[])
     printf("nvgCreateGL3() failed\n");
     return false;
   }
-
-  font_ = nvgCreateFont(vg_, "font", "../../font/mplus-1p-regular.ttf");
+  
+  font_ = nvgCreateFont(vg_, "font", FONT_PATH);
   if (font_ < 0) {
     printf("nvgCreateFont() failed\n");
     return false;

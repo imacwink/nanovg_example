@@ -1,10 +1,13 @@
-﻿#include <GL/glew.h>
+﻿#include <glew.h>
 #include <SDL.h>
 #include "nanovg.h"
 #define NANOVG_GL2_IMPLEMENTATION
 #include "nanovg_gl.h"
 #ifdef _MSC_VER
 #define snprintf _snprintf
+#define FONT_PATH "../../font/mplus-1p-regular.ttf"
+#else
+#define FONT_PATH "font/mplus-1p-regular.ttf"
 #endif
 
 namespace nanovg_example {
@@ -125,7 +128,7 @@ bool App::Initialize(int argc, char *argv[])
     return false;
   }
 
-  font_ = nvgCreateFont(vg_, "font", "/Users/don/Library/Fonts/mplus-1p-regular.ttf");
+  font_ = nvgCreateFont(vg_, "font", FONT_PATH);
   if (font_ < 0) {
     return false;
   }

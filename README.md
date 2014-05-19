@@ -18,7 +18,7 @@ Run `update_ninja_file.sh` to create build.ninja.
 `update_ninja_file.sh` requires [Ruby](http://www.ruby-lang.org/) and `erb` command:
 
 ```
-% ./update_ninja_file.sh
+% ./update_ninja_file.sh bulid.ninja.erb build.ninja
 ```
 
 Use [Ninja](https://github.com/martine/ninja) to build.
@@ -41,4 +41,4 @@ Font
 ----
 
 `nanovg_example_glfw` and `nanovg_example_sdl` requires `mplus-1p-regular.ttf` to draw the text.
-You can get this font from [M+ FONTS](http://mplus-fonts.sourceforge.jp/)
+You can get this font from [M+ FONTS](http://mplus-fonts.sourceforge.jp/).
