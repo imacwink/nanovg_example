@@ -55,7 +55,7 @@ int App::Run(int argc, char *argv[])
     glClearColor(0.3, 0.3, 0.32, 0.5f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    nvgBeginFrame(vg_, w, h, pixel_ratio, NVG_STRAIGHT_ALPHA);
+    nvgBeginFrame(vg_, w, h, pixel_ratio);
 
     nvgFontSize(vg_, 96);
     nvgFontFace(vg_, "font");
@@ -104,7 +104,7 @@ bool App::Initialize(int argc, char *argv[])
   }
   glGetError();
 
-  vg_ = nvgCreateGL3(512, 512, NVG_ANTIALIAS);
+  vg_ = nvgCreateGL3(NVG_ANTIALIAS);
   if (vg_ == NULL) {
     printf("nvgCreateGL3() failed\n");
     return false;

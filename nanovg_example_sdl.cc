@@ -66,7 +66,7 @@ int App::Run(int argc, char *argv[])
     glClearColor(0.3, 0.3, 0.32, 0.5f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    nvgBeginFrame(vg_, w, h, pixel_ratio, NVG_STRAIGHT_ALPHA);
+    nvgBeginFrame(vg_, w, h, pixel_ratio);
 
     nvgFontSize(vg_, 96);
     nvgFontFace(vg_, "font");
@@ -106,6 +106,11 @@ bool App::Initialize(int argc, char *argv[])
     printf("SDL_GL_SetAttribute() failed: %s\n", SDL_GetError());
     return false;
   }
+  ret = SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  if (ret != 0) {
+    printf("SDL_GL_SetAttribute() failed: %s\n", SDL_GetError());
+    return false;
+  }
   ret = SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   if (ret != 0) {
     printf("SDL_GL_SetAttribute() failed: %s\n", SDL_GetError());
@@ -117,11 +122,6 @@ bool App::Initialize(int argc, char *argv[])
     return false;
   }
   ret = SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-  if (ret != 0) {
-    printf("SDL_GL_SetAttribute() failed: %s\n", SDL_GetError());
-    return false;
-  }
-  ret = SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   if (ret != 0) {
     printf("SDL_GL_SetAttribute() failed: %s\n", SDL_GetError());
     return false;
@@ -153,7 +153,7 @@ bool App::Initialize(int argc, char *argv[])
   }
   glGetError();
 
-  vg_ = nvgCreateGL3(512, 512, NVG_ANTIALIAS);
+  vg_ = nvgCreateGL3(NVG_ANTIALIAS);
   if (vg_ == NULL) {
     printf("nvgCreateGL3() failed.\n");
     return false;

@@ -23,16 +23,15 @@ rule link
   description = LINK $out
 
 build $builddir/nanovg.o: cc nanovg/src/nanovg.c
-build $builddir/stb_image.o: cc nanovg/src/stb_image.c
 
 build $builddir/nanovg_example_glfw.o: cxx nanovg_example_glfw.cc
   cppflags = $cppflags <%= `pkg-config --cflags-only-I glew glfw3`.chomp %>
-build nanovg_example_glfw: link $builddir/nanovg_example_glfw.o $builddir/nanovg.o $builddir/stb_image.o
+build nanovg_example_glfw: link $builddir/nanovg_example_glfw.o $builddir/nanovg.o
   libs = $libs <%= `pkg-config --libs glew glfw3`.chomp %>
 
 build $builddir/nanovg_example_sdl.o: cxx nanovg_example_sdl.cc
   cppflags = $cppflags <%= `pkg-config --cflags-only-I glew sdl2`.chomp %>
-build nanovg_example_sdl: link $builddir/nanovg_example_sdl.o $builddir/nanovg.o $builddir/stb_image.o
+build nanovg_example_sdl: link $builddir/nanovg_example_sdl.o $builddir/nanovg.o
   libs = $libs <%= `pkg-config --libs glew sdl2`.chomp %>
 
 rule configure
